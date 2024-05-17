@@ -1,5 +1,3 @@
-import fetch from "node-fetch";
-
 export const sendEthBlockNumber = async () => {
   const body = {
     jsonrpc: "2.0",
