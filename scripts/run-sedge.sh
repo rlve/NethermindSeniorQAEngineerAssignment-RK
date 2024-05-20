@@ -21,4 +21,4 @@ npx ts-node ./scripts/waitForFullSync.ts
 
 npm run test
 
-cat sedge.logs
+cat docker ps -q | xargs -L 1 docker logs
