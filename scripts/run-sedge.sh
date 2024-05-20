@@ -3,7 +3,7 @@
 
 echo 'Running sedge...'
 ./sedge deps install >>sedge.logs
-./sedge generate --logging none -p $HOME full-node \
+./sedge generate --logging none -p . full-node \
 --map-all --no-mev-boost --no-validator \
 --network chiado -c lighthouse:sigp/lighthouse:latest \
 -e nethermind:nethermindeth/nethermind:master \

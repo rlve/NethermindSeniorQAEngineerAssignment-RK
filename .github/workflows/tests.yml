@@ -31,6 +31,9 @@ jobs:
           curl -L https://github.com/NethermindEth/sedge/releases/download/v1.3.2/sedge-v1.3.2-linux-amd64 --output sedge
           chmod +x ./sedge
 
+      - name: Install NPM dependencies
+        run: npm ci
+
       - name: Start sedge
         run: |
           ./scripts/run-sedge.sh
