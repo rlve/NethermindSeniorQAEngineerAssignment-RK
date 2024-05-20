@@ -11,7 +11,11 @@ import { retry } from 'ts-retry-promise';
       console.log(syncStateResult);
       console.log(syncingResult);
 
-      if (syncStateResult.currentStage === 'StateNodes' || syncingResult) {
+      if (
+        syncStateResult.currentStage === 'StateNodes' ||
+        syncStateResult.currentStage === 'Disconnected' ||
+        syncingResult
+      ) {
         throw Error();
       }
     },
