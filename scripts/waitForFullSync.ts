@@ -14,7 +14,7 @@ import { retry } from 'ts-retry-promise';
         throw Error();
       }
     },
-    { retries: 'INFINITELY', delay: 5000, timeout: 180000 },
+    { retries: 'INFINITELY', delay: 5000, timeout: 60000 },
   );
 
   await retry(
