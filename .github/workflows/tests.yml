@@ -52,6 +52,7 @@ jobs:
           docker ps -q | xargs -L 1 docker logs
 
       - name: Save DB
+        if: always()
         id: cache-db-save
         uses: actions/cache/save@v4
         with:
