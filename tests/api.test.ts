@@ -15,7 +15,7 @@ describe('eth_blockNumber', () => {
 
 describe('eth_getBlockByNumber', () => {
   it('should return block by number', async () => {
-    const result = await sendEthGetBlockByNumber('0x967111', false);
+    const result = await sendEthGetBlockByNumber('latest', false);
 
     expect(result).toHaveProperty('author');
   });

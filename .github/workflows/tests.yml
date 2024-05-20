@@ -71,4 +71,4 @@ jobs:
           path: |
             consensus-data
             execution-data
-          key: ${{ steps.cache-db-restore.outputs.cache-primary-key }}
+          key: ${{ steps.cache-db-restore.outputs.cache-primary-key }}-${{ github.run_id }}
