@@ -38,20 +38,15 @@ jobs:
         run: |
           ./scripts/run-sedge.sh
 
-      # - name: Start Ethereum client
-      #   run: |
-      #     nohup geth --syncmode "fast" &
-      #     sleep 300
-      #     geth attach --exec 'eth.syncing'
+      - name: Wait for full sync
+        run: |
+          npx ts-node ./scripts/waitForFullSync.ts
 
-      # - name: Check sync status
-      #   run: |
-      #     until geth attach --exec 'eth.syncing' | grep -q 'false'; do
-      #       echo "Still syncing..."
-      #       sleep 60
-      #     done
-      #     echo "Sync complete"
+      - name: Run tests
+        run: |
+          npm run test
 
-      # - name: Run tests
-      #   run: |
-      #     # Add your test commands here
+      - name: Show docker logs
+        if: always()
+        run: |
+          docker ps -q | xargs -L 1 docker logs
