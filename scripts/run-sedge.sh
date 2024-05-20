@@ -3,7 +3,7 @@
 
 echo 'Running sedge...'
 ./sedge deps install >>sedge.logs
-./sedge generate --logging none -p $HOME full-node \
+./sedge generate --logging none -p $PWD full-node \
 --map-all --no-mev-boost --no-validator \
 --network chiado -c lighthouse:sigp/lighthouse:latest \
 -e nethermind:nethermindeth/nethermind:master \
@@ -13,8 +13,10 @@ echo 'Running sedge...'
 --el-extra-flag JsonRpc.EnabledModules="[Eth,TxPool,Web3,Net,Health,Rpc,Debug]" \
 --cl-extra-flag checkpoint-sync-url=http://139.144.26.89:4000/ >>sedge.logs
 
-./sedge run -p $HOME >>sedge.logs
+./sedge run -p $PWD >>sedge.logs
 
 npx ts-node ./scripts/waitForFullSync.ts
 
 npm run test
+
+echo sedge.logs
