@@ -51,6 +51,10 @@ jobs:
         run: |
           docker ps -q | xargs -L 1 docker logs
 
+      - name: Stop sedge
+        run: |
+          ./sedge -p $PWD down
+
       - name: Save DB
         if: always()
         id: cache-db-save
