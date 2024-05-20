@@ -16,15 +16,6 @@ jobs:
         uses: actions/setup-node@v4
         with:
           node-version: lts/*
-      # - name: Set up cache
-      #   id: cache-geth
-      #   uses: actions/cache@v2
-      #   with:
-      #     path: |
-      #       ~/.ethereum/geth
-      #     key: ${{ runner.os }}-geth-${{ hashFiles('path/to/cache-key-file') }}
-      #     restore-keys: |
-      #       ${{ runner.os }}-geth-
 
       - name: Install sedge
         run: |
@@ -33,6 +24,15 @@ jobs:
 
       - name: Install NPM dependencies
         run: npm ci
+
+      - name: Restore DB
+        id: cache-db-restore
+        uses: actions/cache/restore@v4
+        with:
+          path: |
+            consensus-data
+            execution-data
+          key: ${{ runner.os }}-eth
 
       - name: Start sedge
         run: |
@@ -50,3 +50,12 @@ jobs:
         if: always()
         run: |
           docker ps -q | xargs -L 1 docker logs
+
+      - name: Save DB
+        id: cache-db-save
+        uses: actions/cache/save@v4
+        with:
+          path: |
+            consensus-data
+            execution-data
+          key: ${{ steps.cache-db-restore.outputs.cache-primary-key }}
