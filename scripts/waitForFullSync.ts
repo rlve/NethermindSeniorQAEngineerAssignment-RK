@@ -4,6 +4,7 @@ import { retry } from 'ts-retry-promise';
 
 (async () => {
   console.log('before retry');
+  console.log(await sendDebugGetSyncStage());
   await retry(
     async () => {
       console.log('in retry 1');
