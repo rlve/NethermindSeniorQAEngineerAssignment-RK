@@ -27,6 +27,6 @@ import { retry } from 'ts-retry-promise';
         throw Error();
       }
     },
-    { retries: 'INFINITELY', delay: 5000, timeout: 60 * 60000 },
+    { retries: 'INFINITELY', delay: 5000, timeout: 20 * 60000 },
   );
 })();
