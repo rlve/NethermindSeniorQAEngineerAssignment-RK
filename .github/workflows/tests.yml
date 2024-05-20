@@ -59,8 +59,8 @@ jobs:
       - name: Fix permissions before caching
         if: always()
         run: |
-          chmod -R a+r consensus-data     
-          chmod -R a+r execution-data
+          sudo chmod -R a+r consensus-data     
+          sudo chmod -R a+r execution-data
 
       - name: Save DB
         if: always()
