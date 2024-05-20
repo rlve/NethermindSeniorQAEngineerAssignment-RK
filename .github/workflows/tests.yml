@@ -52,6 +52,7 @@ jobs:
           docker ps -q | xargs -L 1 docker logs
 
       - name: Stop sedge
+        if: always()
         run: |
           ./sedge -p $PWD down
 
