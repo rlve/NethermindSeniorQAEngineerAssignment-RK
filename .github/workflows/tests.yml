@@ -1,0 +1,53 @@
+name: Run Tests
+on:
+  push:
+    branches: [main, master]
+  pull_request:
+    branches: [main, master]
+  workflow_dispatch:
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v2
+      - name: Set up Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: lts/*
+      # - name: Set up cache
+      #   id: cache-geth
+      #   uses: actions/cache@v2
+      #   with:
+      #     path: |
+      #       ~/.ethereum/geth
+      #     key: ${{ runner.os }}-geth-${{ hashFiles('path/to/cache-key-file') }}
+      #     restore-keys: |
+      #       ${{ runner.os }}-geth-
+
+      # - name: Install dependencies
+      #   run: |
+      #     sudo apt-get update
+      #     sudo apt-get install -y software-properties-common
+      #     sudo add-apt-repository -y ppa:ethereum/ethereum
+      #     sudo apt-get update
+      #     sudo apt-get install -y ethereum
+
+      # - name: Start Ethereum client
+      #   run: |
+      #     nohup geth --syncmode "fast" &
+      #     sleep 300
+      #     geth attach --exec 'eth.syncing'
+
+      # - name: Check sync status
+      #   run: |
+      #     until geth attach --exec 'eth.syncing' | grep -q 'false'; do
+      #       echo "Still syncing..."
+      #       sleep 60
+      #     done
+      #     echo "Sync complete"
+
+      # - name: Run tests
+      #   run: |
+      #     # Add your test commands here
