@@ -11,7 +11,7 @@ import { retry } from 'ts-retry-promise';
       console.log(syncStateResult);
 
       if (
-        !syncStateResult.currentStage.includes('StateNodes') ||
+        !syncStateResult.currentStage.includes('StateNodes') &&
         !syncStateResult.currentStage.includes('WaitingForBlock')
       ) {
         throw Error();

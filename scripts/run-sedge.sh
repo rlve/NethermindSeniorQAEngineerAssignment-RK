@@ -15,4 +15,4 @@ echo 'Running sedge...'
 
 ./sedge run -p $PWD >>sedge.logs
 
-sleep 30
+sleep 90
