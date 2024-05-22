@@ -26,14 +26,15 @@ jobs:
       - name: Install NPM dependencies
         run: npm ci
 
-      - name: Restore DB
-        id: cache-db-restore
-        uses: actions/cache/restore@v4
+      - name: Cache DB
+        id: cache-db
+        uses: actions/cache@v4
         with:
           path: |
             consensus-data
-            execution-data
-          key: ${{ runner.os }}-eth
+            execution-dat
+          key: ${{ runner.os }}-eth-${{ github.run_id }}
+          restore-keys: ${{ runner.os }}-eth
 
       - name: Start sedge
         run: |
@@ -73,13 +74,3 @@ jobs:
         run: |
           sudo chmod -R a+r consensus-data     
           sudo chmod -R a+r execution-data
-
-      - name: Save DB
-        if: always()
-        id: cache-db-save
-        uses: actions/cache/save@v4
-        with:
-          path: |
-            consensus-data
-            execution-data
-          key: ${{ runner.os }}-eth-${{ github.run_id }}
