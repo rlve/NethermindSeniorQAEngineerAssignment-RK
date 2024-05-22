@@ -24,6 +24,7 @@
     "typescript": "^5.4.5"
   },
   "dependencies": {
+    "ts-node": "^10.9.2",
     "ts-retry-promise": "^0.8.1"
   }
 }

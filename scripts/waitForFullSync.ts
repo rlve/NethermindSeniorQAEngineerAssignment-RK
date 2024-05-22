@@ -5,16 +5,32 @@ import { retry } from 'ts-retry-promise';
 (async () => {
   await retry(
     async () => {
-      const syncStateResult = await sendDebugGetSyncStage();
+      await retry(
+        async () => {
+          const syncStateResult = await sendDebugGetSyncStage();
+
+          console.log(syncStateResult);
+
+          if (
+            !syncStateResult.currentStage.includes('StateNodes') &&
+            !syncStateResult.currentStage.includes('BeaconHeaders') &&
+            !syncStateResult.currentStage.includes('Full') &&
+            !syncStateResult.currentStage.includes('WaitingForBlock')
+          ) {
+            throw Error();
+          }
+        },
+        { retries: 'INFINITELY', delay: 5000, timeout: 60000 },
+      );
+
       const syncingResult = await sendEthSyncing();
 
-      console.log(syncStateResult);
       console.log(syncingResult);
 
-      if (syncStateResult.currentStage === 'StateNodes' || syncingResult) {
+      if (syncingResult) {
         throw Error();
       }
     },
-    { retries: 'INFINITELY', delay: 5000, timeout: 180000 },
+    { retries: 'INFINITELY', delay: 5000, timeout: 30 * 60000 },
   );
 })();

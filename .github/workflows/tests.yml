@@ -1,0 +1,74 @@
+name: Run Tests
+on:
+  push:
+    branches: [main, master]
+  pull_request:
+    branches: [main, master]
+  workflow_dispatch:
+
+jobs:
+  tests:
+    runs-on: ubuntu-latest
+    timeout-minutes: 60
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v2
+      - name: Set up Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: lts/*
+
+      - name: Install sedge
+        run: |
+          curl -L https://github.com/NethermindEth/sedge/releases/download/v1.3.2/sedge-v1.3.2-linux-amd64 --output sedge
+          chmod +x ./sedge
+
+      - name: Install NPM dependencies
+        run: npm ci
+
+      - name: Restore DB
+        id: cache-db-restore
+        uses: actions/cache/restore@v4
+        with:
+          path: |
+            consensus-data
+            execution-data
+          key: ${{ runner.os }}-eth
+
+      - name: Start sedge
+        run: |
+          ./scripts/run-sedge.sh
+
+      - name: Wait for full sync
+        run: |
+          npx ts-node ./scripts/waitForFullSync.ts
+
+      - name: Run tests
+        run: |
+          npm run test
+
+      - name: Show docker logs
+        if: always()
+        run: |
+          docker ps -q | xargs -L 1 docker logs
+
+      - name: Stop sedge
+        if: always()
+        run: |
+          ./sedge -p $PWD down
+
+      - name: Fix permissions before caching
+        if: always()
+        run: |
+          sudo chmod -R a+r consensus-data     
+          sudo chmod -R a+r execution-data
+
+      - name: Save DB
+        if: always()
+        id: cache-db-save
+        uses: actions/cache/save@v4
+        with:
+          path: |
+            consensus-data
+            execution-data
+          key: ${{ steps.cache-db-restore.outputs.cache-primary-key }}-${{ github.run_id }}
