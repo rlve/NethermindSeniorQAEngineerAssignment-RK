@@ -13,7 +13,6 @@ import { retry } from 'ts-retry-promise';
 
           if (
             !syncStateResult.currentStage.includes('StateNodes') &&
-            !syncStateResult.currentStage.includes('BeaconHeaders') &&
             !syncStateResult.currentStage.includes('Full') &&
             !syncStateResult.currentStage.includes('WaitingForBlock')
           ) {
