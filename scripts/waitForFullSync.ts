@@ -1,4 +1,4 @@
-import { sendDebugGetSyncStage, sendEthSyncing } from '../lib/requests';
+import { sendDebugGetSyncStage, sendEthSyncing } from '../tests/lib/requests';
 
 import { retry } from 'ts-retry-promise';
 

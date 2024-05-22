@@ -5,7 +5,10 @@ on:
   pull_request:
     branches: [main, master]
   workflow_dispatch:
-
+permissions:
+  contents: read
+  actions: read
+  checks: write
 jobs:
   tests:
     runs-on: ubuntu-latest
@@ -53,8 +56,11 @@ jobs:
           npm run test
 
       - name: Publish functional tests report
-        if: always()
-        run: npx github-actions-ctrf ctrf/ctrf-report.json
+        uses: dorny/test-reporter@v1
+        with:
+          name: Functional tests
+          path: './reports/jest-junit.xml'
+          reporter: 'jest-junit'
 
       - name: Run performance tests
         run: |
@@ -62,7 +68,7 @@ jobs:
 
       - name: Publish performance tests report
         run: |
-          cat k6-results.txt >> $GITHUB_STEP_SUMMARY
+          ./scripts/process-k6-report.sh
 
       - name: Show docker logs
         if: always()

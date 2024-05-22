@@ -1,0 +1,47 @@
+const BlockProperties = {
+  author: { type: 'string' },
+  difficulty: { type: 'string' },
+  extraData: { type: 'string' },
+  gasLimit: { type: 'string' },
+  gasUsed: { type: 'string' },
+  hash: { type: 'string' },
+  logsBloom: { type: 'string' },
+  miner: { type: 'string' },
+  mixHash: { type: 'string' },
+  nonce: { type: 'string' },
+  number: { type: 'string' },
+  parentHash: { type: 'string' },
+  receiptsRoot: { type: 'string' },
+  sha3Uncles: { type: 'string' },
+  size: { type: 'string' },
+  stateRoot: { type: 'string' },
+  totalDifficulty: { type: 'string' },
+  timestamp: { type: 'string' },
+  baseFeePerGas: { type: 'string' },
+  transactions: { type: 'array' },
+  transactionsRoot: { type: 'string' },
+  uncles: { type: 'array', items: { type: 'string' } },
+  withdrawals: {
+    type: 'array',
+    items: {
+      type: 'object',
+      properties: {
+        index: { type: 'string' },
+        validatorIndex: { type: 'string' },
+        address: { type: 'string' },
+        amount: { type: 'string' },
+      },
+    },
+  },
+  withdrawalsRoot: { type: 'string' },
+  blobGasUsed: { type: 'string' },
+  excessBlobGas: { type: 'string' },
+  parentBeaconBlockRoot: { type: 'string' },
+};
+
+export const BlockSchema = {
+  type: 'object',
+  properties: BlockProperties,
+  required: Object.keys(BlockProperties),
+  additionalProperties: false,
+};
