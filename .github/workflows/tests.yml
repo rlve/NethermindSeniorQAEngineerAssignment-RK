@@ -52,9 +52,12 @@ jobs:
         run: |
           npm run test
 
-      # - name: Publish functional tests report
-      #   if: always()
-      #   run: npx github-actions-ctrf summary ctrf/ctrf-report.json
+      - name: Publish functional tests report
+        uses: dorny/test-reporter@v1
+        with:
+          name: Functional tests
+          path: 'reports/jest-junit.xml'
+          reporter: 'jest-junit'
 
       - name: Run performance tests
         run: |
