@@ -47,44 +47,44 @@ jobs:
       #   run: |
       #     npx ts-node ./scripts/waitForFullSync.ts
 
-      # - name: Run tests
-      #   run: |
-      #     npm run test
+      - name: Run functional tests
+        run: |
+          npm run test >> $GITHUB_STEP_SUMMARY
 
       - name: Build k6 script
         run: |
           npx tsc
 
-      - name: Run k6
+      - name: Run performance tests
         run: |
           ./scripts/run-k6.sh
 
       - name: Show k6 logs
         run: |
-          cat k6-results.txt
+          cat k6-results.txt >> $GITHUB_STEP_SUMMARY
 
       - name: Show docker logs
         if: always()
         run: |
           docker ps -q | xargs -L 1 docker logs
 
-      - name: Stop sedge
-        if: always()
-        run: |
-          ./sedge -p $PWD down
+      # - name: Stop sedge
+      #   if: always()
+      #   run: |
+      #     ./sedge -p $PWD down
 
-      - name: Fix permissions before caching
-        if: always()
-        run: |
-          sudo chmod -R a+r consensus-data     
-          sudo chmod -R a+r execution-data
+      # - name: Fix permissions before caching
+      #   if: always()
+      #   run: |
+      #     sudo chmod -R a+r consensus-data
+      #     sudo chmod -R a+r execution-data
 
-      - name: Save DB
-        if: always()
-        id: cache-db-save
-        uses: actions/cache/save@v4
-        with:
-          path: |
-            consensus-data
-            execution-data
-          key: ${{ steps.cache-db-restore.outputs.cache-primary-key }}-${{ github.run_id }}
+      # - name: Save DB
+      #   if: always()
+      #   id: cache-db-save
+      #   uses: actions/cache/save@v4
+      #   with:
+      #     path: |
+      #       consensus-data
+      #       execution-data
+      #     key: ${{ steps.cache-db-restore.outputs.cache-primary-key }}-${{ github.run_id }}
