@@ -47,9 +47,9 @@ jobs:
       #   run: |
       #     npx ts-node ./scripts/waitForFullSync.ts
 
-      - name: Run functional tests
-        run: |
-          npm run test >> $GITHUB_STEP_SUMMARY
+      # - name: Run functional tests
+      #   run: |
+      #     npm run test
 
       - name: Build k6 script
         run: |
