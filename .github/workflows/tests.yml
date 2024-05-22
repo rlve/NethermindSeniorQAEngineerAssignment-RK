@@ -7,9 +7,9 @@ on:
   workflow_dispatch:
 
 jobs:
-  init:
+  tests:
     runs-on: ubuntu-latest
-    timeout-minutes: 60
+    timeout-minutes: 90
     steps:
       - name: Checkout repository
         uses: actions/checkout@v2
@@ -26,21 +26,14 @@ jobs:
       - name: Install NPM dependencies
         run: npm ci
 
-      - name: Fix permissions before caching
-        if: always()
-        run: |
-          sudo chmod -R a+r consensus-data     
-          sudo chmod -R a+r execution-data
-
-      - name: Cache DB
-        id: cache-db
-        uses: actions/cache@v4
+      - name: Restore DB
+        id: cache-db-restore
+        uses: actions/cache/restore@v4
         with:
           path: |
             consensus-data
-            execution-dat
-          key: ${{ runner.os }}-eth-${{ github.run_id }}
-          restore-keys: ${{ runner.os }}-eth
+            execution-data
+          key: ${{ runner.os }}-eth
 
       - name: Start sedge
         run: |
@@ -50,21 +43,10 @@ jobs:
         run: |
           npx ts-node ./scripts/waitForFullSync.ts
 
-  tests:
-    needs: [init]
-    runs-on: ubuntu-latest
-    timeout-minutes: 5
-    steps:
       - name: Run tests
         run: |
           npm run test
 
-  clean-up:
-    needs: [init, tests]
-    runs-on: ubuntu-latest
-    timeout-minutes: 15
-    if: ${{ always() }}
-    steps:
       - name: Show docker logs
         if: always()
         run: |
@@ -74,3 +56,19 @@ jobs:
         if: always()
         run: |
           ./sedge -p $PWD down
+
+      - name: Fix permissions before caching
+        if: always()
+        run: |
+          sudo chmod -R a+r consensus-data     
+          sudo chmod -R a+r execution-data
+
+      - name: Save DB
+        if: always()
+        id: cache-db-save
+        uses: actions/cache/save@v4
+        with:
+          path: |
+            consensus-data
+            execution-data
+          key: ${{ steps.cache-db-restore.outputs.cache-primary-key }}-${{ github.run_id }}
