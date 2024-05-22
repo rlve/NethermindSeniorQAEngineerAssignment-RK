@@ -13,6 +13,7 @@ jobs:
     steps:
       - name: Checkout repository
         uses: actions/checkout@v2
+
       - name: Set up Node
         uses: actions/setup-node@v4
         with:
@@ -30,22 +31,22 @@ jobs:
         run: |
           curl https://github.com/grafana/k6/releases/download/v0.51.0/k6-v0.51.0-linux-amd64.tar.gz -L | tar xvz --strip-components 1
 
-      # - name: Restore DB
-      #   id: cache-db-restore
-      #   uses: actions/cache/restore@v4
-      #   with:
-      #     path: |
-      #       consensus-data
-      #       execution-data
-      #     key: ${{ runner.os }}-eth
+      - name: Restore DB
+        id: cache-db-restore
+        uses: actions/cache/restore@v4
+        with:
+          path: |
+            consensus-data
+            execution-data
+          key: ${{ runner.os }}-eth
 
-      # - name: Start sedge
-      #   run: |
-      #     ./scripts/run-sedge.sh
+      - name: Start sedge
+        run: |
+          ./scripts/run-sedge.sh
 
-      # - name: Wait for full sync
-      #   run: |
-      #     npx ts-node ./scripts/waitForFullSync.ts
+      - name: Wait for full sync
+        run: |
+          npx ts-node ./scripts/waitForFullSync.ts
 
       - name: Run functional tests
         run: |
@@ -54,10 +55,6 @@ jobs:
       - name: Publish functional tests report
         if: always()
         run: npx github-actions-ctrf ctrf/ctrf-report.json
-
-      # - name: Build k6 script
-      #   run: |
-      #     npx tsc
 
       - name: Run performance tests
         run: |
@@ -72,23 +69,23 @@ jobs:
         run: |
           docker ps -q | xargs -L 1 docker logs
 
-      # - name: Stop sedge
-      #   if: always()
-      #   run: |
-      #     ./sedge -p $PWD down
+      - name: Stop sedge
+        if: always()
+        run: |
+          ./sedge -p $PWD down
 
-      # - name: Fix permissions before caching
-      #   if: always()
-      #   run: |
-      #     sudo chmod -R a+r consensus-data
-      #     sudo chmod -R a+r execution-data
+      - name: Fix permissions before caching
+        if: always()
+        run: |
+          sudo chmod -R a+r consensus-data
+          sudo chmod -R a+r execution-data
 
-      # - name: Save DB
-      #   if: always()
-      #   id: cache-db-save
-      #   uses: actions/cache/save@v4
-      #   with:
-      #     path: |
-      #       consensus-data
-      #       execution-data
-      #     key: ${{ steps.cache-db-restore.outputs.cache-primary-key }}-${{ github.run_id }}
+      - name: Save DB
+        if: always()
+        id: cache-db-save
+        uses: actions/cache/save@v4
+        with:
+          path: |
+            consensus-data
+            execution-data
+          key: ${{ steps.cache-db-restore.outputs.cache-primary-key }}-${{ github.run_id }}
