@@ -4,7 +4,8 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "test": "jest"
+    "test": "jest",
+    "k6": "./scripts/run-k6.sh"
   },
   "repository": {
     "type": "git",
