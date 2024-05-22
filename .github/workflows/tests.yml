@@ -52,9 +52,9 @@ jobs:
         run: |
           npm run test
 
-      - name: Publish functional tests report
-        if: always()
-        run: npx github-actions-ctrf ctrf/ctrf-report.json
+      # - name: Publish functional tests report
+      #   if: always()
+      #   run: npx github-actions-ctrf summary ctrf/ctrf-report.json
 
       - name: Run performance tests
         run: |
@@ -62,7 +62,7 @@ jobs:
 
       - name: Publish performance tests report
         run: |
-          cat k6-results.txt >> $GITHUB_STEP_SUMMARY
+          ./scripts/process-k6-report.sh
 
       - name: Show docker logs
         if: always()
