@@ -35,17 +35,17 @@ jobs:
             execution-data
           key: ${{ runner.os }}-eth
 
-      # - name: Start sedge
-      #   run: |
-      #     ./scripts/run-sedge.sh
+      - name: Start sedge
+        run: |
+          ./scripts/run-sedge.sh
 
-      # - name: Wait for full sync
-      #   run: |
-      #     npx ts-node ./scripts/waitForFullSync.ts
+      - name: Wait for full sync
+        run: |
+          npx ts-node ./scripts/waitForFullSync.ts
 
-      # - name: Run tests
-      #   run: |
-      #     npm run test
+      - name: Run tests
+        run: |
+          npm run test
 
       - name: Build k6 script
         run: |
