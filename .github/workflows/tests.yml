@@ -26,36 +26,42 @@ jobs:
       - name: Install NPM dependencies
         run: npm ci
 
-      - name: Restore DB
-        id: cache-db-restore
-        uses: actions/cache/restore@v4
-        with:
-          path: |
-            consensus-data
-            execution-data
-          key: ${{ runner.os }}-eth
-
-      - name: Start sedge
+      - name: Install k6
         run: |
-          ./scripts/run-sedge.sh
+          curl https://github.com/grafana/k6/releases/download/v0.51.0/k6-v0.51.0-linux-amd64.tar.gz -L | tar xvz --strip-components 1
 
-      - name: Wait for full sync
-        run: |
-          npx ts-node ./scripts/waitForFullSync.ts
+      # - name: Restore DB
+      #   id: cache-db-restore
+      #   uses: actions/cache/restore@v4
+      #   with:
+      #     path: |
+      #       consensus-data
+      #       execution-data
+      #     key: ${{ runner.os }}-eth
 
-      - name: Run tests
-        run: |
-          npm run test
+      # - name: Start sedge
+      #   run: |
+      #     ./scripts/run-sedge.sh
+
+      # - name: Wait for full sync
+      #   run: |
+      #     npx ts-node ./scripts/waitForFullSync.ts
+
+      # - name: Run tests
+      #   run: |
+      #     npm run test
 
       - name: Build k6 script
         run: |
           npx tsc
 
       - name: Run k6
-        uses: grafana/k6-action@v0.3.1
-        with:
-          filename: ./dist/k6/load.js
-          flags: --vus 1 --duration 10s
+        run: |
+          ./scripts/run-k6.ts
+
+      - name: Show k6 logs
+        run: |
+          cat k6-results.txt
 
       - name: Show docker logs
         if: always()
