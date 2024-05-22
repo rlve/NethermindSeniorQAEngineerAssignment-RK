@@ -54,8 +54,6 @@ jobs:
       - name: Run functional tests
         run: |
           npm run test
-          cd reports
-          ls
 
       - name: Publish functional tests report
         uses: dorny/test-reporter@v1
