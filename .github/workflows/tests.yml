@@ -47,19 +47,22 @@ jobs:
       #   run: |
       #     npx ts-node ./scripts/waitForFullSync.ts
 
-      # - name: Run functional tests
-      #   run: |
-      #     npm run test
-
-      - name: Build k6 script
+      - name: Run functional tests
         run: |
-          npx tsc
+          npm run test
+
+      - name: Publish functional tests report
+        run: npx github-actions-ctrf path-to-your-ctrf-report.json
+
+      # - name: Build k6 script
+      #   run: |
+      #     npx tsc
 
       - name: Run performance tests
         run: |
           ./scripts/run-k6.sh
 
-      - name: Show k6 logs
+      - name: Publish performance tests report
         run: |
           cat k6-results.txt >> $GITHUB_STEP_SUMMARY
 
