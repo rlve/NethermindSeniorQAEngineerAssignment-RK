@@ -136,3 +136,4 @@ sedge
 sedge.logs
 jwtsecret
 k6-results.txt
+scripts/run-k6-local.sh
