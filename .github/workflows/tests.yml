@@ -26,10 +26,6 @@ jobs:
       - name: Install NPM dependencies
         run: npm ci
 
-      - name: Install k6
-        run: |
-          ./scripts/install-k6.sh
-
       - name: Restore DB
         id: cache-db-restore
         uses: actions/cache/restore@v4
@@ -52,9 +48,10 @@ jobs:
           npm run test
 
       - name: Run k6
-        if: always()
-        run: |
-          ./scripts/run-k6.sh
+        uses: grafana/k6-action@v0.3.1
+        with:
+          filename: ./dist/load.js
+          flags: --vus 1 --duration 10s
 
       - name: Show docker logs
         if: always()
