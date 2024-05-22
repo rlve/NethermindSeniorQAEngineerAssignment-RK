@@ -26,6 +26,12 @@ jobs:
       - name: Install NPM dependencies
         run: npm ci
 
+      - name: Fix permissions before caching
+        if: always()
+        run: |
+          sudo chmod -R a+r consensus-data     
+          sudo chmod -R a+r execution-data
+
       - name: Cache DB
         id: cache-db
         uses: actions/cache@v4
@@ -68,9 +74,3 @@ jobs:
         if: always()
         run: |
           ./sedge -p $PWD down
-
-      - name: Fix permissions before caching
-        if: always()
-        run: |
-          sudo chmod -R a+r consensus-data     
-          sudo chmod -R a+r execution-data
