@@ -50,13 +50,11 @@ jobs:
       - name: Build k6 script
         run: |
           npx tsc
-          cd dist
-          ls
 
       - name: Run k6
         uses: grafana/k6-action@v0.3.1
         with:
-          filename: ./dist/load.js
+          filename: ./dist/k6/load.js
           flags: --vus 1 --duration 10s
 
       - name: Show docker logs
