@@ -14,6 +14,6 @@ echo 'Running sedge...'
 
 ./sedge run -p $PWD >>sedge.logs
 
-DELAY=90
+DELAY=60
 echo "Waiting $DELAY[s] for SEDGE to start"
 sleep $DELAY
