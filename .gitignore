@@ -132,8 +132,6 @@ dist
 # Nethermind
 consensus-data
 execution-data
-old_consensus-data
-old_execution-data
 sedge
 sedge.logs
 jwtsecret
