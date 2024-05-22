@@ -52,7 +52,8 @@ jobs:
           npm run test
 
       - name: Publish functional tests report
-        run: npx github-actions-ctrf path-to-your-ctrf-report.json
+        if: always()
+        run: npx github-actions-ctrf ctrf/ctrf-report.json
 
       # - name: Build k6 script
       #   run: |
