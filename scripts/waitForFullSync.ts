@@ -13,7 +13,6 @@ import { retry } from 'ts-retry-promise';
 
           if (
             !syncStateResult.currentStage.includes('StateNodes') &&
-            !syncStateResult.currentStage.includes('BeaconHeaders') &&
             !syncStateResult.currentStage.includes('Full') &&
             !syncStateResult.currentStage.includes('WaitingForBlock')
           ) {
@@ -31,6 +30,6 @@ import { retry } from 'ts-retry-promise';
         throw Error();
       }
     },
-    { retries: 'INFINITELY', delay: 5000, timeout: 30 * 60000 },
+    { retries: 'INFINITELY', delay: 5000, timeout: 20 * 60000 },
   );
 })();

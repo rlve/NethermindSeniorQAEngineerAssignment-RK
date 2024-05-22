@@ -4,7 +4,8 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "test": "jest"
+    "test": "jest",
+    "k6": "./scripts/run-k6.sh"
   },
   "repository": {
     "type": "git",
@@ -18,7 +19,9 @@
   "homepage": "https://github.com/rlve/NethermindSeniorQAEngineerAssignment-RK#readme",
   "devDependencies": {
     "@types/jest": "^29.5.12",
+    "@types/k6": "^0.51.0",
     "jest": "^29.7.0",
+    "jest-ctrf-json-reporter": "^0.0.6",
     "prettier": "^3.2.5",
     "ts-jest": "^29.1.2",
     "typescript": "^5.4.5"
