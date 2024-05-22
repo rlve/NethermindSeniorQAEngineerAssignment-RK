@@ -57,7 +57,7 @@ jobs:
 
       - name: Run k6
         run: |
-          ./scripts/run-k6.ts
+          ./scripts/run-k6.sh
 
       - name: Show k6 logs
         run: |
