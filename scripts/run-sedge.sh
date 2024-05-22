@@ -1,5 +1,4 @@
 #!/bin/bash
-# ./sedge -p . down
 
 echo 'Running sedge...'
 ./sedge deps install >>sedge.logs
@@ -15,4 +14,6 @@ echo 'Running sedge...'
 
 ./sedge run -p $PWD >>sedge.logs
 
-sleep 90
+DELAY=90
+echo "Waiting $DELAY[s] for SEDGE to start"
+sleep $DELAY
