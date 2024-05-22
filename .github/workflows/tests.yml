@@ -50,6 +50,7 @@ jobs:
       - name: Build k6 script
         run: |
           npx tsc
+          cd dist
           ls
 
       - name: Run k6
