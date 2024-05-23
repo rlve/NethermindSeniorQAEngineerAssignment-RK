@@ -4,6 +4,15 @@ This repository contains the solution for the Nethermind Senior QA Engineer Assi
 
 ## Overview
 
+The solution has been developed in approximately 2 working days. The repository contains setups for functional and performance tests, which are basic but can serve as a foundation for further development. The solution includes a fully functional GitHub Actions workflow.
+
+Potential Improvements:
+
+- Add thresholds to the K6 script to automatically check for performance regressions in the endpoints.
+- Explore other reporters for K6 and enhance the report presentation in the summary.
+- Optimize the caching strategy for the sync data. Currently, it is saved in every run; adding logic to save only when necessary could improve efficiency.
+- Manage test configurations using dotenv or the node-config-ts package. Currently, there is minimal configuration data, and the client endpoint is hardcoded in the file.
+
 ### Waiting for Full Sync Strategy
 
 The `waitForFullSync.ts` script ensures the Ethereum client is fully synchronized before running tests. It uses retry logic to repeatedly check the sync status until completion.
