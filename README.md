@@ -11,7 +11,7 @@ Potential Improvements:
 - Add thresholds to the K6 script to automatically check for performance regressions in the endpoints.
 - Explore other reporters for K6 and enhance the report presentation in the summary.
 - Optimize the caching strategy for the sync data. Currently, it is saved in every run; adding logic to save only when necessary could improve efficiency.
-- Manage test configurations using dotenv or the node-config-ts package. Currently, there is minimal configuration data, and the client endpoint is hardcoded in the file.
+- Manage test configurations using `dotenv` or `node-config-ts` package. Currently, there is minimal configuration data, which is hardcoded in the files.
 
 ### Waiting for Full Sync Strategy
 
