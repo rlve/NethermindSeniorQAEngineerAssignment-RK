@@ -34,7 +34,7 @@ jobs:
         run: |
           curl https://github.com/grafana/k6/releases/download/v0.51.0/k6-v0.51.0-linux-amd64.tar.gz -L | tar xvz --strip-components 1
 
-      - name: Restore DB
+      - name: Restore cache
         id: cache-db-restore
         uses: actions/cache/restore@v4
         with:
@@ -45,11 +45,11 @@ jobs:
 
       - name: Start sedge
         run: |
-          ./scripts/run-sedge.sh
+          npm run sedge
 
       - name: Wait for full sync
         run: |
-          npx ts-node ./scripts/waitForFullSync.ts
+          npm run wait-for-sync
 
       - name: Run functional tests
         run: |
@@ -64,11 +64,11 @@ jobs:
 
       - name: Run performance tests
         run: |
-          ./scripts/run-k6.sh
+          npm run k6
 
       - name: Publish performance tests report
         run: |
-          ./scripts/process-k6-report.sh
+          npm run k6:report
 
       - name: Show docker logs
         if: always()
@@ -78,7 +78,7 @@ jobs:
       - name: Stop sedge
         if: always()
         run: |
-          ./sedge -p $PWD down
+          npm run sedge:stop
 
       - name: Fix permissions before caching
         if: always()
@@ -86,7 +86,7 @@ jobs:
           sudo chmod -R a+r consensus-data
           sudo chmod -R a+r execution-data
 
-      - name: Save DB
+      - name: Save cache
         if: always()
         id: cache-db-save
         uses: actions/cache/save@v4
