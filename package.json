@@ -6,6 +6,7 @@
   "scripts": {
     "test": "jest",
     "k6": "./scripts/run-k6.sh",
+    "k6:local": "./scripts/run-k6-local.sh",
     "k6:report": "./scripts/process-k6-report.sh",
     "sedge": "./scripts/run-sedge.sh",
     "sedge:stop": "./sedge -p $PWD down",
